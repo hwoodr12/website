@@ -157,6 +157,23 @@ sqldf(query)</code></pre>
 ## 24 thomamy01   1927    NYA  0
 ## 25  weraju01   1927    NYA  1</code></pre>
 </div>
+<div id="phillies-batting-from-1770" class="section level2">
+<h2>Phillies batting from 1770</h2>
+<pre class="r"><code>query &lt;-&quot;SELECT playerID,yearID,teamID,HR FROM Batting
+WHERE teamID='PHI' and HR&gt;30 and yearID&lt;=1979 and yearID&gt;=1970&quot;
+
+sqldf(query)</code></pre>
+<pre><code>##    playerID yearID teamID HR
+## 1 johnsde01   1971    PHI 34
+## 2 schmimi01   1974    PHI 36
+## 3 luzingr01   1975    PHI 34
+## 4 schmimi01   1975    PHI 38
+## 5 schmimi01   1976    PHI 38
+## 6 luzingr01   1977    PHI 39
+## 7 schmimi01   1977    PHI 38
+## 8 luzingr01   1978    PHI 35
+## 9 schmimi01   1979    PHI 45</code></pre>
+</div>
 <div id="order-by" class="section level2">
 <h2>Order By</h2>
 <p>with SQL, you can order the rows of your output. For instance,suppose you want to see every instance of a player hitting more than 50 homeruns. But you would like players with the most homeruns to be at the top. We could do the following:</p>
