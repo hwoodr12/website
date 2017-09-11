@@ -41,7 +41,29 @@ ORDER BY HR DESC"
 sqldf(query)
 ```
 
-
-
+##Aggregation
+Find Babe Ruth's Career homerun total;
+```{r}
+query<-"SELECT playerID, sum(HR) FROM Batting
+WHERE playerID='ruthba01'
+GROUP BY playerID"
+sqldf(query)
+```
+Find Career totals for players having a sum more than 600 homeruns
+```{r}
+query<-"SELECT playerID, HR FROM Batting
+GROUP BY playerID
+HAVING sum(HR)>=600
+ORDER BY sum(HR)DESC"
+sqldf(query)
+```
+Find the players who have average more than 30 homeruns per year
+```{r}
+query<-"SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+HAVING avg(HR)>=30
+ORDER BY avg(HR)DESC"
+sqldf(query)
+```
 
 

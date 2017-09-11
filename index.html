@@ -219,6 +219,51 @@ sqldf(query)</code></pre>
 ## 35 fieldce01   1990    DET 51
 ## 36 jonesan01   2005    ATL 51</code></pre>
 </div>
+<div id="aggregation" class="section level2">
+<h2>Aggregation</h2>
+<p>Find Babe Ruth’s Career homerun total;</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID, sum(HR) FROM Batting
+WHERE playerID='ruthba01'
+GROUP BY playerID&quot;
+sqldf(query)</code></pre>
+<pre><code>##   playerID sum(HR)
+## 1 ruthba01     714</code></pre>
+<p>Find Career totals for players having a sum more than 600 homeruns</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID, HR FROM Batting
+GROUP BY playerID
+HAVING sum(HR)&gt;=600
+ORDER BY sum(HR)DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##    playerID HR
+## 1 bondsba01 28
+## 2 aaronha01 10
+## 3  ruthba01  6
+## 4 rodrial01  9
+## 5  mayswi01  6
+## 6 griffke02  0
+## 7 thomeji01  3
+## 8  sosasa01 21</code></pre>
+<p>Find the players who have average more than 30 homeruns per year</p>
+<pre class="r"><code>query&lt;-&quot;SELECT playerID,avg(HR) FROM Batting
+GROUP BY playerID
+HAVING avg(HR)&gt;=30
+ORDER BY avg(HR)DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##     playerID  avg(HR)
+## 1  pujolal01 36.93750
+## 2  bondsba01 34.63636
+## 3  mcgwima01 34.29412
+## 4  kinerra01 33.54545
+## 5  aaronha01 32.82609
+## 6  bryankr01 32.50000
+## 7   ruthba01 32.45455
+## 8   sosasa01 32.05263
+## 9  cabremi01 31.85714
+## 10 belleal01 31.75000
+## 11 rodrial01 31.63636
+## 12 schmimi01 30.44444
+## 13 abreujo02 30.33333</code></pre>
+</div>
 
 
 
