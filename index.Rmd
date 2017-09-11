@@ -21,7 +21,7 @@ query <-"select playerID,yearID,teamID,hr from Batting
 WHERE teamID='NYA' and yearID=1927"
 sqldf(query)
 ```
-##Phillies batting from 1770
+Phillies batting from 1770
 
 ```{r}
 query <-"SELECT playerID,yearID,teamID,HR FROM Batting
