@@ -66,4 +66,44 @@ ORDER BY avg(HR)DESC"
 sqldf(query)
 ```
 
+##Joins
+Joining puts multiple tables together.
+Example 1 Gives us First and last name, team, year and homeruns for Babe Ruth.
+```{r}
+query<-"SELECT nameFirst,nameLast,teamID,yearID,HR
+FROM Batting INNER JOIN Master
+ON Batting.playerID= Master.playerID
+WHERE Batting.playerID='ruthba01'"
+sqldf(query)
+```
 
+Example 2 Finds all instances of players getting more than 50 homeruns.
+```{r}
+query<-"SELECT nameFIRST,nameLAST,teamID,yearID,HR
+FROM Batting INNER JOIN Master
+On Batting.playerID=Master.PlayerID
+WHERE HR>50
+ORDER BY HR DESC"
+sqldf(query)
+```
+
+Example 3 Find Babe Ruths homeruns by season.
+```{r}
+query<-"SELECT playerID,name,Batting.yearID,Batting.HR
+FROM Batting INNER JOIN Teams
+On Batting.teamID=Teams.teamID and Batting.yearID=Teams.yearID
+Where playerID='ruthba01'"
+sqldf(query)
+```
+
+Example 4 Find Babe Ruths totals.
+```{r}
+query<-"SELECT nameFIRST,nameLAST,name,Batting.yearID,Batting.HR 
+FROM (Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID) INNER JOIN Teams 
+ON Batting.teamID=Teams.teamID and Batting.yearID=Teams.yearID
+WHERE Batting.playerID='ruthba01'"
+sqldf(query)
+```
+
+Example 5
