@@ -219,14 +219,14 @@ sqldf(query)</code></pre>
 </div>
 <div id="aggregation" class="section level2">
 <h2>Aggregation</h2>
-<p>Find Babe Ruth’s Career homerun total;</p>
+<p>Example 1: Find Babe Ruth’s Career homerun total;</p>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID, sum(HR) FROM Batting
 WHERE playerID='ruthba01'
 GROUP BY playerID&quot;
 sqldf(query)</code></pre>
 <pre><code>##   playerID sum(HR)
 ## 1 ruthba01     714</code></pre>
-<p>Find Career totals for players having a sum more than 600 homeruns</p>
+<p>Example 2: Find Career totals for players having a sum more than 600 homeruns</p>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID, HR FROM Batting
 GROUP BY playerID
 HAVING sum(HR)&gt;=600
@@ -241,7 +241,7 @@ sqldf(query)</code></pre>
 ## 6 griffke02  0
 ## 7 thomeji01  3
 ## 8  sosasa01 21</code></pre>
-<p>Find the players who have average more than 30 homeruns per year</p>
+<p>Example 3: Find the players who have average more than 30 homeruns per year</p>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID,avg(HR) FROM Batting
 GROUP BY playerID
 HAVING avg(HR)&gt;=30
@@ -264,7 +264,8 @@ sqldf(query)</code></pre>
 </div>
 <div id="joins" class="section level2">
 <h2>Joins</h2>
-<p>Joining puts multiple tables together. Example 1 Gives us First and last name, team, year and homeruns for Babe Ruth.</p>
+<p>Joining puts multiple tables together.</p>
+<p>Example 1: Gives us First and last name, team, year and homeruns for Babe Ruth.</p>
 <pre class="r"><code>query&lt;-&quot;SELECT nameFirst,nameLast,teamID,yearID,HR
 FROM Batting INNER JOIN Master
 ON Batting.playerID= Master.playerID
@@ -293,7 +294,7 @@ sqldf(query)</code></pre>
 ## 20      Babe     Ruth    NYA   1933 34
 ## 21      Babe     Ruth    NYA   1934 22
 ## 22      Babe     Ruth    BSN   1935  6</code></pre>
-<p>Example 2 Finds all instances of players getting more than 50 homeruns.</p>
+<p>Example 2: Finds all instances of players getting more than 50 homeruns.</p>
 <pre class="r"><code>query&lt;-&quot;SELECT nameFIRST,nameLAST,teamID,yearID,HR
 FROM Batting INNER JOIN Master
 On Batting.playerID=Master.PlayerID
@@ -337,7 +338,7 @@ sqldf(query)</code></pre>
 ## 34    Willie      Mays    NY1   1955 51
 ## 35     Cecil   Fielder    DET   1990 51
 ## 36    Andruw     Jones    ATL   2005 51</code></pre>
-<p>Example 3 Find Babe Ruths homeruns by season.</p>
+<p>Example 3: Find Babe Ruths homeruns by season.</p>
 <pre class="r"><code>query&lt;-&quot;SELECT playerID,name,Batting.yearID,Batting.HR
 FROM Batting INNER JOIN Teams
 On Batting.teamID=Teams.teamID and Batting.yearID=Teams.yearID
@@ -366,7 +367,7 @@ sqldf(query)</code></pre>
 ## 20 ruthba01 New York Yankees   1933 34
 ## 21 ruthba01 New York Yankees   1934 22
 ## 22 ruthba01    Boston Braves   1935  6</code></pre>
-<p>Example 4 Find Babe Ruths totals.</p>
+<p>Example 4: Find Babe Ruths totals.</p>
 <pre class="r"><code>query&lt;-&quot;SELECT nameFIRST,nameLAST,name,Batting.yearID,Batting.HR 
 FROM (Batting INNER JOIN Master
 ON Batting.playerID=Master.playerID) INNER JOIN Teams 
@@ -396,7 +397,40 @@ sqldf(query)</code></pre>
 ## 20      Babe     Ruth New York Yankees   1933 34
 ## 21      Babe     Ruth New York Yankees   1934 22
 ## 22      Babe     Ruth    Boston Braves   1935  6</code></pre>
-<p>Example 5</p>
+<p>Example 5: Find career homerun totals for players who have at least 600 homeruns.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT nameFIRST,nameLAST,sum(HR)
+FROM Batting INNER JOIN Master
+ON Batting.playerID=Master.playerID
+GROUP BY Batting.playerID
+HAVING sum(HR)&gt;=600
+ORDER BY sum(HR) DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##   nameFirst  nameLast sum(HR)
+## 1     Barry     Bonds     762
+## 2      Hank     Aaron     755
+## 3      Babe      Ruth     714
+## 4      Alex Rodriguez     696
+## 5    Willie      Mays     660
+## 6       Ken   Griffey     630
+## 7       Jim     Thome     612
+## 8     Sammy      Sosa     609</code></pre>
+<p>Exaple 6: List all players, first and last name, with the first name of Bob who averaged more than one million dollars salary over their career.</p>
+<pre class="r"><code>query&lt;-&quot;SELECT nameFIRST,nameLAST,avg(salary)
+FROM Salaries INNER JOIN Master
+ON Salaries.playerID=Master.playerID
+GROUP BY Salaries.playerID
+HAVING nameFIRST='Bob' and avg(salary)&gt;1000000
+ORDER BY avg(salary) DESC&quot;
+sqldf(query)</code></pre>
+<pre><code>##   nameFirst  nameLast avg(salary)
+## 1       Bob   Wickman     2635813
+## 2       Bob     Welch     1930417
+## 3       Bob     Howry     1804583
+## 4       Bob    Horner     1416667
+## 5       Bob Tewksbury     1288182
+## 6       Bob   Stanley     1067500
+## 7       Bob     Boone     1047580
+## 8       Bob     Ojeda     1035926</code></pre>
 </div>
 
 
